@@ -1,27 +1,30 @@
 import { useState } from "react";
+
+const getTodayDate = () => {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 export default function App() {
   const [expenses, setExpenses] = useState([]);
   const [category, setCategory] = useState("Food");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState(getTodayDate());
 
-  function getTodayDate() {
-    const d = new Date();
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
     const amt = Number(amount);
+    const id = crypto?.randomUUID?.() ?? String(Date.now());
+
     if (!category) return alert("Select a category");
     if (!date) return alert("Select a date");
     if (!Number.isFinite(amt) || amt <= 0) return alert("Amount must be > 0");
 
     const newExpense = {
-      id: crypto.randomUUID(),
+      id: id,
       category,
       amount: amt,
       date,
