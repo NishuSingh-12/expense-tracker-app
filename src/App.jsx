@@ -24,7 +24,7 @@ export default function App() {
     if (!Number.isFinite(amt) || amt <= 0) return alert("Amount must be > 0");
 
     const newExpense = {
-      id: id,
+      id,
       category,
       amount: amt,
       date,
@@ -35,6 +35,10 @@ export default function App() {
     setCategory("Food");
     setAmount("");
     setDate(getTodayDate());
+  }
+
+  function removeExpense(id) {
+    setExpenses((prev) => prev.filter((e) => e.id !== id));
   }
 
   return (
@@ -72,6 +76,7 @@ export default function App() {
             <span>{expense.category}</span>
             <span>{expense.amount}</span>
             <span>{expense.date}</span>
+            <button onClick={() => removeExpense(expense.id)}>Delete</button>
           </li>
         ))}
       </ul>
