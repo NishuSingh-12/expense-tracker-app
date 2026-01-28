@@ -1,10 +1,17 @@
 import { useState } from "react";
-
 export default function App() {
   const [expenses, setExpenses] = useState([]);
   const [category, setCategory] = useState("Food");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(getTodayDate());
+
+  function getTodayDate() {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -24,7 +31,7 @@ export default function App() {
 
     setCategory("Food");
     setAmount("");
-    setDate(new Date().toISOString().slice(0, 10));
+    setDate(getTodayDate());
   }
 
   return (
