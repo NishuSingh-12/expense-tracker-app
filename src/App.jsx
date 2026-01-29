@@ -27,6 +27,13 @@ export default function App() {
       ? expenses
       : expenses.filter((e) => e.category === filterCategory);
 
+  const total = visibleExpenses.reduce((sum, e) => sum + e.amount, 0);
+
+  const categoryTotals = visibleExpenses.reduce((acc, e) => {
+    acc[e.category] = (acc[e.category] || 0) + e.amount;
+    return acc;
+  }, {});
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -120,7 +127,19 @@ export default function App() {
           ))}
         </select>
       </div>
+      <div className="border rounded p-3 mb-4">
+        <p className="font-semibold">Summary</p>
+        <p>Total: ₹{total}</p>
 
+        <ul className="mt-2">
+          {Object.entries(categoryTotals).map(([cat, amt]) => (
+            <li key={cat} className="flex justify-between">
+              <span>{cat}</span>
+              <span>₹{amt}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
       {/* LIST */}
       <ul className="space-y-2">
         {visibleExpenses.length === 0 ? (
