@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const getTodayDate = () => {
   const d = new Date();
@@ -11,7 +11,14 @@ const getTodayDate = () => {
 const CATEGORIES = ["Food", "Travel", "Shopping", "Bills", "Health", "Other"];
 
 export default function App() {
-  const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState(() => {
+    const saved = localStorage.getItem("expenses");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
 
   // ADD FORM STATES
   const [category, setCategory] = useState("Food");
